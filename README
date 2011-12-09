@@ -1,0 +1,3 @@
+A very simple example of 3D Metaballs implemented with the Marching Cubes algorithm.
+
+Based on the document by Paul Bourke - http://paulbourke.net/geometry/polygonise/
