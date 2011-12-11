@@ -1,11 +1,13 @@
 varying vec3 vPos;
+varying vec3 normal;
 
 void main() {
-    vec3 eyePos = vec3(100.0,0.0,100.0);
-     
-    float f = length(vPos - eyePos);
+    vec3 eyePos = vec3(0.1,0.1,0.9);
     
-    f /= 1000.0;
     
-    gl_FragColor = vec4(vec3(1.0,0.0,1.0)*f,0.3);
+    vec3 nN = normalize(normal);  
+
+    float f = dot(nN, eyePos);
+        
+    gl_FragColor = vec4(vec3(1.0,1.0,1.0),1.0) * f;
 }

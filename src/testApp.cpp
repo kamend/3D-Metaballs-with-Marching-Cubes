@@ -1,7 +1,7 @@
 #include "testApp.h"
 
-const int kNumBalls = 20;
-const float kThreshold = 1.0;
+const int kNumBalls = 10;
+const float kThreshold = 0.7;
 //--------------------------------------------------------------
 void testApp::setup(){
 	
@@ -18,24 +18,29 @@ void testApp::setup(){
     }
     
     shader.load("shader");
-    
-}
-
-//--------------------------------------------------------------
-void testApp::update(){
-    // update metaballs
-    for(int i=0;i<kNumBalls;i++) {
-        ofVec3f force = ofVec3f(ofRandomf(),ofRandomf(),ofRandomf());
-        balls[i].update(force*10);
-    }
-    
     // marching cubes
     
     mcubes->zeroGrid();
     for(int i=0;i<kNumBalls;i++) {
         mcubes->addMetaBall(balls[i], balls[i].size);
-    }
+    }    
     mcubes->update(kThreshold);
+}
+
+//--------------------------------------------------------------
+void testApp::update(){
+    // update metaballs
+    
+    for(int i=0;i<kNumBalls;i++) {
+        ofVec3f force = ofVec3f(ofRandomf(),ofRandomf(),ofRandomf());
+        balls[i].update(force*3);
+    }
+   
+    mcubes->zeroGrid();
+    for(int i=0;i<kNumBalls;i++) {
+        mcubes->addMetaBall(balls[i], balls[i].size);
+    }    
+    
 
 }
 
@@ -59,10 +64,11 @@ void testApp::draw(){
     
     ofTranslate(-ofGetWidth()/2, -ofGetHeight()/2);
     ofBackground(0);
-    
+
+    mcubes->update(kThreshold);
     ofNoFill();
     ofSetColor(100,100,100,100);
-    ofRect(0, 0, kGridSizeX*kGridResolution, kGridResolution*kGridSizeY);
+   // ofRect(0, 0, kGridSizeX*kGridResolution, kGridResolution*kGridSizeY);
     shader.begin();
     mcubes->drawGridTriangles();
     shader.end();
